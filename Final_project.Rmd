@@ -1,0 +1,367 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+---
+```{r}
+# MBSBA320
+# Prof. Siamak Zadeh
+# Final Project
+# Sadegh Bamohabbat Chafjiri
+```
+
+
+```{r}
+library(ggplot2)
+```
+```{r}
+library (gridExtra)
+```
+```{r}
+library(GGally)
+```
+
+
+
+```{r}
+#Reading Data set
+WR <- read.csv('WR.csv')
+head(WR)
+```
+```{r}
+dim(WR)
+```
+```{r}
+sapply(WR, function(x) { sum(is.na(x))})
+```
+
+```{r}
+names(WR)
+```
+
+
+```{r}
+str(WR)
+```
+
+```{r}
+summary(WR)
+```
+
+```{r}
+boxplot(pH~quality,data=WR, main="pH based on classified quality by tasters ", 
+  	xlab="quality", ylab="pH")
+boxplot(free.sulfur.dioxide~quality,data=WR, main="freeSo2 based on classified quality by tasters", 
+  	xlab="quality", ylab="free.sulfur.dioxide")
+boxplot(total.sulfur.dioxide~quality,data=WR, main="TotalSo2 based on classified quality by tasters", 
+  	xlab="quality", ylab="total.sulfur.dioxide")
+boxplot(alcohol~quality,data=WR, main="Alcohol based on classified quality by tasters", 
+  	xlab="quality", ylab="alcohol")
+boxplot(density~quality,data=WR, main="density based on classified quality by tasters", 
+  	xlab="quality", ylab="density")
+boxplot(chlorides~quality,data=WR, main=" chlorides based on classified quality by tasters", 
+  	xlab="quality", ylab="chlorides")
+```
+
+
+```{r}
+#Plotting the overall distribution for White wine by scatter plot
+q1<-ggplot(aes(x=pH),
+       data =  subset(WR,Type %in% c("W")))+
+   geom_histogram(color =I('black'),fill = I('#099009'))+
+  ggtitle('pH distribution for White wine')
+q2<-ggplot(aes(x=free.sulfur.dioxide),
+       data =  subset(WR,Type %in% c("W")))+
+   geom_histogram(color =I('black'),fill = I('#099009'))+
+  ggtitle('Free SO2 distribution for White wine')
+q3<-ggplot(aes(x=total.sulfur.dioxide),
+       data =  subset(WR,Type %in% c("W")))+
+   geom_histogram(color =I('black'),fill = I('#099009'))+
+  ggtitle('Total SO2 distribution for White wine')
+q4<-ggplot(aes(x=alcohol),
+       data =  subset(WR,Type %in% c("W")))+
+   geom_histogram(color =I('black'),fill = I('#099009'))+
+  ggtitle('Alcohol distribution for White wine')
+
+grid.arrange(q1,q2,q3,q4,ncol=2)
+
+```
+```{r}
+#Plotting the overall distribution for Red wine by scatter plot
+p1<-ggplot(aes(x=pH),
+       data =  subset(WR,Type %in% c("R")))+
+   geom_histogram(color =I('black'),fill = I('#900909'))+
+  ggtitle('pH dist of Red wine')
+p2<-ggplot(aes(x=free.sulfur.dioxide),
+       data =  subset(WR,Type %in% c("R")))+
+   geom_histogram(color =I('black'),fill = I('#900909'))+
+  ggtitle('Free SO2 dist of Red wine')
+p3<-ggplot(aes(x=total.sulfur.dioxide),
+       data =  subset(WR,Type %in% c("R")))+
+   geom_histogram(color =I('black'),fill = I('#900909'))+
+  ggtitle('Total SO2 dist of Red wine')
+p4<-ggplot(aes(x=alcohol),
+       data =  subset(WR,Type %in% c("R")))+
+   geom_histogram(color =I('black'),fill = I('#900909'))+
+  ggtitle('Alcohol dis of Red wine')
+
+grid.arrange(p1,p2,p3,p4,ncol=2)
+```
+
+
+```{r}
+# Plotting the spread of the quality analysis for the Red and White
+r1<-ggplot(aes(x=quality),
+       data =  subset(WR,Type %in% c("W")))+
+   geom_histogram(color =I('black'),fill = I('#099009'))+
+  ggtitle('Quality distribution for White wine')
+r2<-ggplot(aes(x=quality),
+       data =  subset(WR,Type %in% c("R")))+
+   geom_histogram(color =I('black'),fill = I('#900909'))+
+  ggtitle('Quality distribution for Red wine')
+
+grid.arrange(r1,r2,ncol=1)
+```
+```{r}
+#Running Scatterplot matrices
+WR1 <- read.csv('WR1.csv')
+head(WR1)
+```
+
+```{r}
+library(GGally)
+theme_set(theme_minimal(20))
+set.seed(2200)
+ggpairs(WR1[sample.int(nrow(WR1),1000),])
+```
+```{r}
+#Running Scatterplot matrices
+WR11 <- read.csv('WR11.csv')
+head(WR11)
+```
+
+```{r}
+library(GGally)
+theme_set(theme_minimal(20))
+set.seed(2200)
+ggpairs(WR11[sample.int(nrow(WR11),1000),])
+```
+
+```{r}
+#Running Scatterplot matrices
+WR2 <- read.csv('WR2.csv')
+head(WR2)
+```
+
+
+```{r}
+library(GGally)
+theme_set(theme_minimal(20))
+set.seed(2200)
+ggpairs(WR2[sample.int(nrow(WR2),1000),])
+```
+
+
+
+
+```{r}
+#alcohol value is considered to be main factor of  wine quality 
+ggplot(aes(x=alcohol),data =WR) + 
+ geom_density(aes(fill = Type))+
+ facet_wrap(~quality)+
+ ggtitle('density&Alcohol Rel in diff levels of quality')
+```
+```{r}
+ggplot(aes(x=pH),data =WR) + 
+ geom_density(aes(fill = Type))+
+ facet_wrap(~quality)+
+ ggtitle('density&pH Rel in diff levels of quality')
+```
+```{r}
+ggplot(aes(x=free.sulfur.dioxide),data =WR) + 
+ geom_density(aes(fill = Type))+
+ facet_wrap(~quality)+
+ ggtitle('density&FreeSo2 Rel in diff levels of quality ')
+```
+```{r}
+ggplot(aes(x=total.sulfur.dioxide),data =WR) + 
+ geom_density(aes(fill = Type))+
+ facet_wrap(~quality)+
+ ggtitle('density&TotalSo2 Rel in diff levels of quality')
+```
+
+
+```{r}
+# Scatterplot of relationship between Alcohol and density
+ggplot(aes(x=alcohol,y=density),data = WR) + 
+  geom_jitter(aes(color = Type,bg = Type),alpha=1/10,,pch=21,cex=4)+
+  facet_wrap(~quality)+
+   scale_color_brewer(type = 'div')+
+  ggtitle('density distrib based on alcohol')
+```
+
+```{r}
+# Scatterplot of relationship between  pH and density
+ggplot(aes(x=pH,y=density),data = WR) + 
+  geom_jitter(aes(color = Type,bg = Type),alpha=1/10,,pch=21,cex=4)+
+  facet_wrap(~quality)+
+   scale_color_brewer(type = 'div')+
+  ggtitle('density distrib based on pH')
+```
+
+```{r}
+# Scatterplot of relationship between  free so2 and density
+ggplot(aes(x=free.sulfur.dioxide,y=density),data = WR) + 
+  geom_jitter(aes(color = Type,bg = Type),alpha=1/10,,pch=21,cex=4)+
+  facet_wrap(~quality)+
+   scale_color_brewer(type = 'div')+
+  ggtitle('density distrib based on FreeSo2')
+```
+```{r}
+# Scatterplot of relationship between total so2 and density
+ggplot(aes(x=total.sulfur.dioxide,y=density),data = WR) + 
+  geom_jitter(aes(color = Type,bg = Type),alpha=1/10,,pch=21,cex=4)+
+  facet_wrap(~quality)+
+   scale_color_brewer(type = 'div')+
+  ggtitle('density distrib based on totalSo2')
+```
+
+
+
+```{r}
+#correlation of quality with Total and Free SO2 and Chlorides
+a1<-ggplot(aes(x=total.sulfur.dioxide,y=quality),
+       data = WR)+
+   geom_density(aes(color=Type),stat='summary',fun.y=median)
+ a2<-ggplot(aes(x=free.sulfur.dioxide,y=quality),
+       data = WR)+
+   geom_density(aes(color=Type),stat='summary',fun.y=median)
+ a3<-ggplot(aes(x=chlorides,y=quality),
+       data = WR)+
+   geom_density(aes(color=Type),stat='summary',fun.y=median)
+  
+
+grid.arrange(a1,a2,a3,ncol=2)
+```
+```{r}
+#correlation of quality with alcohol, density and pH
+   a4<-ggplot(aes(x=density,y=quality),
+       data = WR)+
+   geom_density(aes(color=Type),stat='summary',fun.y=median)
+   a5<-ggplot(aes(x=alcohol,y=quality),
+       data = WR)+
+   geom_density(aes(color=Type),stat='summary',fun.y=median)
+    a6<-ggplot(aes(x=pH,y=quality),
+       data = WR)+
+   geom_density(aes(color=Type),stat='summary',fun.y=median)
+   
+  grid.arrange(a4,a5,a6,ncol=2)
+```
+
+```{r}
+# Make all the variables contionus
+df1<- WR
+for(i in 1:ncol(df1)){
+  df1[,i]<-as.integer(df1[,i])
+}
+# Draw correlatoin plot
+library(corrplot)
+corrplot(cor(as.matrix(df1)),type = "upper")
+cor(df1)
+```
+```{r}
+#correlation of quality and density
+ggplot(aes(x =density , y =quality ), data = WR) + 
+  geom_point(aes(color=Type),alpha=1/4, position = 'jitter')+
+  ggtitle(' density and  Quality Relationship')
+```
+```{r}
+#correlation of quality and alcohol
+ggplot(aes(x =alcohol , y =quality ), data = WR) + 
+  geom_point(aes(color=Type),alpha=1/4, position = 'jitter')+
+  ggtitle(' alcohol and  Quality Relationship')
+```
+```{r}
+#correlation of quality and PH
+ggplot(aes(x =pH , y =quality ), data = WR) + 
+  geom_point(aes(color=Type),alpha=1/4, position = 'jitter')+
+  ggtitle(' pH and  Quality Relationship')
+```
+```{r}
+#correlation of quality and Free SO2 
+ggplot(aes(x =free.sulfur.dioxide , y =quality ), data = WR) + 
+  geom_point(aes(color=Type),alpha=1/4, position = 'jitter')+
+  ggtitle(' Free SO2 and  Quality Relationship')
+```
+```{r}
+#correlation of quality and Total SO2 
+ggplot(aes(x =total.sulfur.dioxide , y = quality), data = WR) + 
+  geom_point(aes(color=Type),alpha=1/4, position = 'jitter')+
+  ggtitle('Total SO2 and Quality Relationship')
+```
+
+```{r}
+#correlation of quality and Chlorides
+ggplot(aes(x =chlorides , y = quality), data = WR) + 
+  geom_point(aes(color=Type),alpha=1/4, position = 'jitter')+
+  ggtitle('chlorides and Quality Relationship')
+```
+```{r}
+# ANOVA
+aov <- aov(quality ~ alcohol + pH + volatile.acidity + residual.sugar + free.sulfur.dioxide + sulphates + chlorides+ density , data=WR)
+summary(aov)
+
+# We know the limitiations of ttest that it can only be performeed on two groups. However, when we have more than two groups we use one way anova for compauring or testing group means of three or more to find statistical significance. Therfore, after perfroming Anova we found that independent variables free.sulfure.dioxide and cholrides are not statistically significant with the quality of wine. Therefore, we fail to reject the null hypothesis.
+```
+
+
+
+
+
+
+```{r}
+Q1 <- lm(quality ~ ., data=WR)
+```
+```{r}
+summary(Q1)
+```
+```{r}
+Q2 <- lm(quality ~ fixed.acidity + volatile.acidity + residual.sugar + free.sulfur.dioxide+ total.sulfur.dioxide +density+ sulphates+ pH +alcohol, data=WR)
+```
+
+```{r}
+#  Regression
+summary(Q2)
+```
+```{r}
+Q3 <- lm(quality ~ volatile.acidity + residual.sugar +  total.sulfur.dioxide +sulphates+ pH +alcohol, data=WR)
+```
+
+```{r}
+# final result of Regression
+summary(Q3)
+```
+
+
+
+
+
+
+
+`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
