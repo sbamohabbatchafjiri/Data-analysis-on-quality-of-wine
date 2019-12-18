@@ -6,10 +6,10 @@ output:
   word_document: default
 ---
 ```{r}
-# MBSBA320
-# Prof. Siamak Zadeh
+# Course: MBSBA320
+# Instructor: Siamak Zadeh
 # Final Project
-# Sadegh Bamohabbat Chafjiri
+# Student: Sadegh Bamohabbat Chafjiri
 ```
 
 
